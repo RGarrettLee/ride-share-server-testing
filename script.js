@@ -8,18 +8,14 @@ function sendPost() {
     fetch(backend, {
         method: 'POST',
         headers: {
-            'Content-Type': 'Authorization',
-            'Accept': '*/*',
-            'Access-Control-Allow-Methods': 'POST',
-            'Access-Control-Allow-Headers': 'x-requested-with',
-            'Access-Control-Allow-Origin': 'https://rgarrettlee.github.io'
+            'Content-Type': 'application/json'
         },
-        body: {
+        body: JSON.stringify({
             'start_lat': 55,
             'start_lon': 33,
             'end_lat': 22,
             'end_lon': 11
-        }
+        })
     })
 }
 
@@ -40,29 +36,4 @@ function xml() {
     xhr.send(data);
 }
 
-let invocation = new XMLHttpRequest();
-
-function call() {
-    if (invocation) {
-        invocation.open('POST', backend, true);
-        invocation.setRequestHeader('Content-Type', 'application/json');
-        invocation.setRequestHeader('Accept', '*/*');
-        invocation.setRequestHeader('Accept-Encoding', 'gzip, deflate, br');
-        invocation.setRequestHeader('Connection', 'keep-alive');
-        let data = '{"start_lat": 22, "start_lon": 11, "end_lat": 55, "end_lon": 77}';
-        invocation.send(data);
-    }
-}
-
-btn.addEventListener('click', sendPost); /*function() {
-    /*$.post(backend, {start_lat: 22, start_lon: 33, end_lat: 55, end_lon: 77}, function() {
-        console.log('posted');
-    }, 'json'); 
-    $.ajax(backend, {
-        type: 'POST',
-        dataType: 'json',
-        data: {start_lat: 22, start_lon: 33, end_lat: 55, end_lon: 77},
-        success: function() {console.log('success')},
-        error: function() {console.log('failed')}
-    })
-});*/
+btn.addEventListener('click', sendPost)
