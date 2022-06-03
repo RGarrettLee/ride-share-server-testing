@@ -9,10 +9,10 @@ var settings = {
   "method": "POST",
   "timeout": 0,
   "headers": {
-    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/xml",
     "Accept-Language": "*",
     "Content-Language": "en-US",
-    "Access-Control-Allow-Origin": "*",
     "X-PINGOTHER": "something"
   },
   "data": JSON.stringify({
