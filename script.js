@@ -8,6 +8,7 @@ var settings = {
   "url": "https://b493-142-185-241-49.ngrok.io",
   "method": "POST",
   "timeout": 0,
+  "mode": "no-cors",
   "headers": {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": backend
