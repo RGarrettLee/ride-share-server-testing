@@ -12,7 +12,7 @@ function sendPost() {
             'Accept': '*/*',
             'Access-Control-Allow-Methods': 'POST',
             'Access-Control-Allow-Headers': 'x-requested-with',
-            'Access-Control-Allow-Origin': backend
+            'Access-Control-Allow-Origin': 'https://rgarrettlee.github.io'
         },
         body: {
             'start_lat': 55,
@@ -54,10 +54,10 @@ function call() {
     }
 }
 
-btn.addEventListener('click', function() {
+btn.addEventListener('click', sendPost); /*function() {
     /*$.post(backend, {start_lat: 22, start_lon: 33, end_lat: 55, end_lon: 77}, function() {
         console.log('posted');
-    }, 'json'); */
+    }, 'json'); 
     $.ajax(backend, {
         type: 'POST',
         dataType: 'json',
@@ -65,4 +65,4 @@ btn.addEventListener('click', function() {
         success: function() {console.log('success')},
         error: function() {console.log('failed')}
     })
-});
+});*/
