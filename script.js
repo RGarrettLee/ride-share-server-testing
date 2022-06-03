@@ -6,7 +6,7 @@ let backend = 'https://b493-142-185-241-49.ngrok.io';
 
 var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Access-Control-Allow-Origin", "https://rgarrettlee.github.io/webhook-testing/")
+myHeaders.append("Access-Control-Allow-Origin", "*")
 
 var raw = JSON.stringify({
   "start_lat": 22,
