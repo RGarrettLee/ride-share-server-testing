@@ -4,28 +4,26 @@ let btn = document.querySelector('#post');
 
 let backend = 'https://b493-142-185-241-49.ngrok.io';
 
-var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-
-var raw = JSON.stringify({
-  "start_lat": 22,
-  "start_lon": 33,
-  "end_lat": 55,
-  "end_lon": 66
-});
-
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: raw,
-  redirect: 'follow'
+var settings = {
+  "url": "https://b493-142-185-241-49.ngrok.io",
+  "method": "POST",
+  "timeout": 0,
+  "headers": {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": backend
+  },
+  "data": JSON.stringify({
+    "start_lat": 22,
+    "start_lon": 33,
+    "end_lat": 55,
+    "end_lon": 66
+  }),
 };
 
 btn.addEventListener('click', function() {
-    fetch("https://b493-142-185-241-49.ngrok.io", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+      });
 })
 
 /*function sendPost() {
