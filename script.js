@@ -9,6 +9,7 @@ var settings = {
     "method": "POST",
     "timeout": 0,
     "headers": {
+        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json"
     },
     "data": JSON.stringify({
