@@ -1,7 +1,3 @@
-import uvicorn
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
@@ -11,16 +7,6 @@ from selenium.webdriver import ActionChains
 from bs4 import BeautifulSoup
 from time import sleep
 
-app = FastAPI()
-
-origins = {
-    'https://rgarrettlee.github.io',
-    'https://rgarrettlee.github.io/webhook-testing/',
-    'https://rgarrettlee.github.io/Ride-Compare/',
-    '*'
-}
-
-app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 
 uberURL = 'https://www.uber.com/global/en/price-estimate/'
 lyftURL = 'https://www.lyft.com/rider/fare-estimate'
@@ -30,37 +16,10 @@ options = Options()
 
 response = {'Uber': {}, 'Lyft': {}}
 
-class info(BaseModel):
-    street : str
-    city : str
-    country : str
-    postal_code : str
-
-@app.get('/', status_code=200)
-def index():
-    return { 'message': 'hello world!' }
-
-@app.post('/', status_code=201)
-def index_post(info: info):
-    print('Post incoming')
-    return info
-
-@app.options('/', status_code=201)
-def index_options(info: info):
-    print('Info incoming')
-    return info
-
-if __name__ == '__main__':
-    uvicorn.run(
-        "app:app",
-        host="localhost",
-        port=5000,
-        reload=True
-    )
+driver = webdriver.Chrome(options=options)
+action = ActionChains(driver)
 
 def getUberPrices(start, dest):
-    driver = webdriver.Chrome(options=options)
-    action = ActionChains(driver)
     driver.get(uberURL)
 
     originForm = driver.find_element(By.NAME, 'pickup')
@@ -80,7 +39,7 @@ def getUberPrices(start, dest):
 
     uberHTML = driver.page_source
 
-    driver.close()
+    driver.back()
 
     resp = {}
 
@@ -113,8 +72,6 @@ def getUberPrices(start, dest):
         response['Uber'] = { 'error': 'No drivers available or some other error occured' }
 
 def getLyftPrices(start, dest):
-    driver = webdriver.Chrome(options=options)
-    action = ActionChains(driver)
     driver.get(lyftURL)
 
     originForm = driver.find_element(By.NAME, 'fare-start')
@@ -171,3 +128,10 @@ def getLyftPrices(start, dest):
     except:
         print('ERROR OCCURED')
         response['Lyft'] = { 'error': 'No drivers available or some other error occured' }
+
+
+
+#getUberPrices('340 St Clair Ave E', '320 St Clair Ave E')
+getLyftPrices('340 St Clair Ave E', '320 St Clair Ave E, Toronto, ON')
+
+print(response)
