@@ -6,19 +6,19 @@ let uberPrice = document.querySelector('#price-uber');
 let lyftDest = document.querySelector('#dest-lyft');
 let lyftPrice = document.querySelector('#price-lyft');
 
-console.log(params);
+let errorMessage = 'An error occured';
 
 uberDest.textContent = params.destination;
 lyftDest.textContent = params.destination;
 
-if (!isNaN(params.uberPrice)) {
-    uberPrice.textContent = `$${params.uberPrice}`;
+if (isNaN(params.uberPrice)) {
+    uberPrice.textContent = errorMessage;
 } else {
-    uberPrice.textContent = params.uberPrices;
+    uberPrice.textContent = `$${params.uberPrice}`;
 }
 
 if (!isNaN(params.lyftPrice)) {
-    lyftPrice.textContent = `$${params.lyftPrice}`;
+    lyftPrice.textContent = errorMessage;
 } else {
-    lyftPrice.textContent = params.lyftPrice;
+    lyftPrice.textContent = `$${params.lyftPrice}`;
 }
