@@ -157,11 +157,13 @@ let savedAddresses = {
 
           let params = new URLSearchParams({
               "uberPrice" : uberPrice,
-              "lyftPrice": lyftPrice
+              "lyftPrice": lyftPrice,
+              "destination": post['dest'].street
           });
 
-          params[uberPrice] = uberPrice;
-          params[lyftPrice] = lyftPrice;
+          params['uberPrice'] = uberPrice;
+          params['lyftPrice'] = lyftPrice;
+          params['destination'] = post['dest'].street;
 
           window.location = (`result?${params.toString()}`);
 

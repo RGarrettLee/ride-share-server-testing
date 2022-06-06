@@ -8,14 +8,17 @@ let lyftPrice = document.querySelector('#price-lyft');
 
 console.log(params);
 
+uberDest.textContent = params.destination;
+lyftDest.textContent = params.destination;
+
 if (isNaN(params.uberPrice)) {
-    uberPrice.textContent = 'Error Occured, Please Try Again'
+    uberPrice.textContent = 'Error Please Try Again'
 } else {
     uberPrice.textContent = `$${params.uberPrice}`;
 }
 
 if (isNaN(params.lyftPrice)) {
-    lyftPrice.textContent = 'Error Occured, Please Try Again'
+    lyftPrice.textContent = 'Error Please Try Again'
 } else {
     uberPrice.textContent = `$${params.lyftPrice}`;
 }
