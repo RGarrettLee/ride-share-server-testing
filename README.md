@@ -8,7 +8,7 @@ Due to the nature of ride sharing services, they will have surge pricing which m
 
 Our website solves this issue for you by providing the information about any given ride across all of the apps with their included surge pricing to let you make the most informed decision about which app to use.
 
-> **Note:** due to Uber and Lyft closing off their API to the public, an alternative solution was used to gether data and therefore the website is not 100% accurate and has some bugs, Please bear with us however
+> **Note:** due to Uber and Lyft closing off their API to the public, an alternative solution was used to gather data and therefore the website is a bit slow and has some bugs, Please bear with us however
 
 [You can try the website out here and start saving money!](https://rgarrettlee.github.io/Ride-Compare/)
 
