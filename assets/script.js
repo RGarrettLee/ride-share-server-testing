@@ -139,7 +139,7 @@ let savedAddresses = {
       .then(resp => resp.text())
       .then(function(result) {
           console.log(result);
-          let res = result;
+          let res = JSON.parse(result);
           data = res[Object.keys(res)[0]];
           uber = data[Object.keys(data)[0]];
           lyft = data[Object.keys(data)[1]];
