@@ -132,9 +132,7 @@ let savedAddresses = {
     $.ajax(settings).done(function (response) {
       console.log(response);
       fetch(`${backend}/data`, {
-          method: "GET",
-          body: raw,
-          redirect: follow
+          method: "GET"
       })
       .then(resp => resp.text())
       .then(result => console.log(result))
