@@ -139,12 +139,22 @@ let savedAddresses = {
       .then(resp => resp.text())
       .then(function(result) {
           console.log(result);
-          data = result[Object.keys(result)[0]];
+          let res = result;
+          data = res[Object.keys(res)[0]];
           uber = data[Object.keys(data)[0]];
           lyft = data[Object.keys(data)[1]];
 
-          uberPrice = uber[Object.keys(uber)[0]];
-          lyftPrice = lyft[Object.keys(lyft)[0]];
+          if (uber !== undefined) {
+              uberPrice = uber[Object.keys(uber)[0]];
+          } else {
+              uberPrice = 0;
+          }
+
+          if (lyft !== undefined) {
+            lyftPrice = lyft[Object.keys(lyft)[0]];
+          } else {
+              lyftPrice = 0;
+          }
 
           console.log(`Uber Price: ${uberPrice} & Lyft Price: ${lyftPrice}`);
       })
