@@ -116,7 +116,7 @@ let savedAddresses = {
   })
   
   // connecting to the custom backend to get the data
-  // still fairly buggy, first search is always empty, second is iffy, third works but the lyft site doesnt guarantee a data response due to it being an awfully made site
+  // fixed backlogged data
   function postData() { 
     console.log(post); 
     let backend = 'https://d979-142-185-241-49.ngrok.io';
@@ -183,10 +183,10 @@ let savedAddresses = {
             if (type === 'origin') {
               post['origin'] = location;
               console.log(post);
+              postData(); // kind of scuffed but this needs to be here to actually send all the data in at the same time vs being buffered between button clicks
             } else if (type === 'destination') {
               post['dest'] = location;
               console.log(post);
-              postData();
             }
             if (latlon == [39.78373, -100.445882]) {
   
