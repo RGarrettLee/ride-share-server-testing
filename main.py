@@ -22,4 +22,8 @@ headers = {
   'Content-Type': 'application/json'
 }
 
-response = requests.request("POST", backend, headers=headers, data=payload)
+#response = requests.request("POST", backend, headers=headers, data=payload)
+
+data = requests.get('{}/data'.format(backend)).json()
+
+print(data)
