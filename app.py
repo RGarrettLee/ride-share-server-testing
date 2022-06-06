@@ -203,6 +203,9 @@ def getLyftPrices(start, dest):
         for i in range(len(keys)):
             resp[keys[i]] = values[i]
 
+        if (resp == {}):
+            resp = { 'error': 'No drivers available or some other error occured' }
+
         returnData['Lyft'] = resp
     except:
         returnData['Lyft'] = { 'error': 'No drivers available or some other error occured' }
