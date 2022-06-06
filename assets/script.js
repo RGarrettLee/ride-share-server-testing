@@ -8,7 +8,8 @@ let savedAddresses = {
   let saveAddressButton = document.getElementById('saveAddress');
   let useAddressButton = document.getElementById('useSaved');
   
-  let post = {'origin': {}, 'dest': {}}
+  let post = {'origin': {}, 'dest': {}};
+  let rideData = {};
   
   // modal showup 
   const rideModal = document.getElementById('rideModal')
@@ -130,6 +131,18 @@ let savedAddresses = {
   
     $.ajax(settings).done(function (response) {
       console.log(response);
+      if (response.ok) {
+        fetch(`${backend}/data`)
+            .then(function(resp) {
+                if (resp.ok) {
+                    resp.json().then(function(data) {
+                        rideData = data;
+                        console.log('RIDE DATA');
+                        console.log(rideData);
+                    })
+                }
+            })
+      }
     })
   }
   

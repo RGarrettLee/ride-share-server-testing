@@ -18,7 +18,8 @@ app = FastAPI()
 origins = {
     'https://rgarrettlee.github.io/',
     'https://rgarrettlee.github.io/webhook-testing/',
-    'https://rgarrettlee.github.io/Ride-Compare/'
+    'https://rgarrettlee.github.io/Ride-Compare/',
+    '*'
 }
 
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
@@ -27,25 +28,33 @@ uberURL = 'https://www.uber.com/global/en/price-estimate/'
 lyftURL = 'https://www.lyft.com/rider/fare-estimate'
 
 options = Options()
-#options.add_argument('--headless')
 
+incomingData = {}
 returnData = {'Uber': {}, 'Lyft': {}}
 
 class info(BaseModel):
     origin : dict
     dest: dict
 
+class output(BaseModel):
+    uber: dict
+    lyft: dict
+
 @app.get('/', status_code=200)
 def index():
     return { 'message': 'hello world!' }
 
+@app.get('/data', status_code=200)
+def get_data():
+    return { 'data': returnData }
+
 @app.post('/', status_code=201)
 def index_post(info: info):
     print('Post incoming')
-    jsonData = jsonable_encoder(info)
-    print(jsonData)
-    getUberPrices(jsonData['origin'], jsonData['dest'])
-    #getLyftPrices(jsonData['origin'], jsonData['dest'])
+    incomingData = jsonable_encoder(info)
+    print(incomingData)
+    getUberPrices(incomingData['origin'], incomingData['dest'])
+    getLyftPrices(incomingData['origin'], incomingData['dest'])
     print(returnData)
     return info
 
@@ -84,7 +93,7 @@ def getUberPrices(start, dest):
 
     uberHTML = driver.page_source
 
-    driver.close()
+    driver.back()
 
     resp = {}
 
@@ -125,15 +134,15 @@ def getLyftPrices(start, dest):
     originLoc = '{}, {}, {} {}'.format(start['street'], start['city'], start['country'], start['postal_code'])
     destLoc = '{}, {}, {} {}'.format(dest['street'], dest['city'], dest['country'], dest['postal_code'])
 
-    for i in range(originLoc):
-        originForm.send_keys(originLoc[i])
+    for i in originLoc:
+        originForm.send_keys(i)
         sleep(0.1)
 
     sleep(0.5)
     originForm.send_keys(Keys.ENTER)
 
     for i in destLoc:
-        destinationForm.send_keys(destLoc[i])
+        destinationForm.send_keys(i)
         sleep(0.1)
 
     sleep(0.5)
@@ -147,6 +156,8 @@ def getLyftPrices(start, dest):
 
     action.double_click(estimate).perform()
 
+    sleep(5)
+
     try:
         lyftHTML = driver.page_source
 
@@ -156,21 +167,42 @@ def getLyftPrices(start, dest):
 
         results = soup.find('div', {'role': 'listbox'})
 
+        key = ''
+        value = ''
+        keys = []
+        values = []
+        newKey = False
         resp = {}
 
-        prices = results.text.replace('AM', ' ').replace('PM', ' ').replace('Lyft4', 'Lyft ').replace('Lux4', 'Lux ').replace('Black4', 'Black ').replace('XL6', 'XL ')
+        prices = results.text.replace('AM', ' ').replace('PM', ' ').replace('Lyft4', 'Lyft ').replace('Lux4', 'Lux ').replace('Black4', 'Black ').replace('XL6', 'XL ').replace('- ', '').replace(':', '').replace('Lyft XL', 'LyftXL').replace('Lux Black XL', 'LuxBlackXL').replace('Lux Black', 'LuxBlack')
         print(prices)
+
         for i in prices:
-            key = ''
-            value = ''
-            if (i == ' '):
-                for k in range(prices.index(i)):
-                    key += prices[k]
-                for k in range(prices.index(i) + 1, len(prices)):
-                    if (prices[k] == ' '): break
-                    value += prices[k]
-                resp[key] = value
-                break
+            if (not newKey):
+                if (i.isalpha()):
+                    key += i
+                if (i == ' ' and len(key) > 0):
+                    newKey = True
+                    if (key != ''):
+                        keys.append(key)
+                    key = ''
+            if (newKey):
+                if (i.isalnum() or i == '$'):
+                    value += i
+                if (i == ' ' and len(value) > 0):
+                    newKey = False
+                    if (value != ''):
+                        values.append(value)
+                    value = ''
+
+        for i in range(len(keys)):
+            for j in keys[i]:
+                if (j.isupper() and keys[i].index(j) > 0):
+                    keys[i] = keys[i].replace(j, ' {}'.format(j)).strip()
+
+        for i in range(len(keys)):
+            resp[keys[i]] = values[i]
+
         returnData['Lyft'] = resp
 
     except:
