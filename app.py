@@ -1,6 +1,8 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -16,8 +18,7 @@ app = FastAPI()
 origins = {
     'https://rgarrettlee.github.io',
     'https://rgarrettlee.github.io/webhook-testing/',
-    'https://rgarrettlee.github.io/Ride-Compare/',
-    '*'
+    'https://rgarrettlee.github.io/Ride-Compare/'
 }
 
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
@@ -28,13 +29,15 @@ lyftURL = 'https://www.lyft.com/rider/fare-estimate'
 options = Options()
 #options.add_argument('--headless')
 
-response = {'Uber': {}, 'Lyft': {}}
+returnData = {'Uber': {}, 'Lyft': {}}
 
 class info(BaseModel):
-    street : str
-    city : str
-    country : str
-    postal_code : str
+    origin : dict
+    dest: dict
+    #city : str
+    #country : str
+    #postal_code : str
+    #street : str
 
 @app.get('/', status_code=200)
 def index():
@@ -43,6 +46,11 @@ def index():
 @app.post('/', status_code=201)
 def index_post(info: info):
     print('Post incoming')
+    jsonData = jsonable_encoder(info)
+    print(jsonData)
+    #getUberPrices(jsonData['origin'], jsonData['dest'])
+    getLyftPrices(jsonData['origin'], jsonData['dest'])
+    print(returnData)
     return info
 
 @app.options('/', status_code=201)
@@ -66,17 +74,17 @@ def getUberPrices(start, dest):
     originForm = driver.find_element(By.NAME, 'pickup')
     destinationForm = driver.find_element(By.NAME, 'destination')
 
-    originForm.send_keys(start)
+    originForm.send_keys('{}'.format(start['street']))
     originForm.click()
     sleep(5)
     originForm.send_keys(Keys.ENTER)
 
-    destinationForm.send_keys(dest)
+    destinationForm.send_keys('{}'.format(dest['street']))
     destinationForm.click()
     sleep(5)
     destinationForm.send_keys(Keys.ENTER)
 
-    sleep(7)
+    sleep(10)
 
     uberHTML = driver.page_source
 
@@ -89,9 +97,7 @@ def getUberPrices(start, dest):
 
         products = soup.find('div', {'class':'pe-products nm i2 cj'})
 
-        print(products.text)
-        prices = products.text.replace('UberX', ' UberX').replace('Assist', ' Assist').split()
-        print(prices)
+        prices = products.text.replace('UberX', ' UberX').replace('Assist', ' Assist').replace('Connect', ' Connect').replace('WAV', ' WAV').split()
 
         for i in prices:
             prices[prices.index(i)] = i.replace('CA', ' CA')
@@ -108,9 +114,9 @@ def getUberPrices(start, dest):
                     resp[key] = value
                     break
 
-        response['Uber'] = resp
+        returnData['Uber'] = resp
     except:
-        response['Uber'] = { 'error': 'No drivers available or some other error occured' }
+        returnData['Uber'] = { 'error': 'No drivers available or some other error occured' }
 
 def getLyftPrices(start, dest):
     driver = webdriver.Chrome(options=options)
@@ -120,15 +126,18 @@ def getLyftPrices(start, dest):
     originForm = driver.find_element(By.NAME, 'fare-start')
     destinationForm = driver.find_element(By.NAME, 'fare-end')
 
-    for i in start:
-        originForm.send_keys(i)
+    originLoc = '{}, {}, {} {}'.format(start['street'], start['city'], start['country'], start['postal_code'])
+    destLoc = '{}, {}, {} {}'.format(dest['street'], dest['city'], dest['country'], dest['postal_code'])
+
+    for i in range(originLoc):
+        originForm.send_keys(originLoc[i])
         sleep(0.1)
 
     sleep(0.5)
     originForm.send_keys(Keys.ENTER)
 
-    for i in dest:
-        destinationForm.send_keys(i)
+    for i in destLoc:
+        destinationForm.send_keys(destLoc[i])
         sleep(0.1)
 
     sleep(0.5)
@@ -166,8 +175,8 @@ def getLyftPrices(start, dest):
                     value += prices[k]
                 resp[key] = value
                 break
-        response['Lyft'] = resp
+        returnData['Lyft'] = resp
 
     except:
         print('ERROR OCCURED')
-        response['Lyft'] = { 'error': 'No drivers available or some other error occured' }
+        returnData['Lyft'] = { 'error': 'No drivers available or some other error occured' }

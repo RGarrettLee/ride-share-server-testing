@@ -2,7 +2,7 @@
 
 let btn = document.querySelector('#post');
 
-let backend = 'https://c3fb-142-185-241-49.ngrok.io';
+let backend = 'https://d979-142-185-241-49.ngrok.io';
 
 var settings = {
     "url": backend,

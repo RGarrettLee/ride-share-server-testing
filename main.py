@@ -1,13 +1,21 @@
 import requests
 import json
 
-backend = 'https://b493-142-185-241-49.ngrok.io'
+backend = 'https://d979-142-185-241-49.ngrok.io'
 
 payload = json.dumps({
-  "start_lat": 22,
-  "start_lon": 33,
-  "end_lat": 55,
-  "end_lon": 66
+  'origin': {
+      "city": "Toronto",
+      "country": "CA",
+      "postal_code": "M4W 1V1",
+      "street": "175 Crescent Road"
+  },
+  'dest': {
+    'city': 'Toronto',
+    'country': 'CA',
+    'postal_code': 'M4T 1P4',
+    'street': '340 Saint Clair Avenue East'
+  }
 })
 
 headers = {

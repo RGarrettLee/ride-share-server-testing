@@ -116,6 +116,7 @@ let savedAddresses = {
   })
   
   function postData() {
+    console.log(post);
     let backend = 'https://d979-142-185-241-49.ngrok.io';
     let settings = {
       "url": backend,
