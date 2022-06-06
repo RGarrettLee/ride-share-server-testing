@@ -138,7 +138,7 @@ let savedAddresses = {
         .then(function(data) {
             rideData = data;
             console.log('RIDE DATA');
-            console.log(rideData);
+            console.log(data);
         })
     })
   }
