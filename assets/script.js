@@ -97,10 +97,10 @@ let savedAddresses = {
     };
   
     //Get price and time estimates from Lyft
-    getLyftCosts(originLatLon, destinationLatLon);
+    //getLyftCosts(originLatLon, destinationLatLon);
   
     //Get price and time estimates from Uber
-    getUberCosts(originLatLon, destinationLatLon);
+    //getUberCosts(originLatLon, destinationLatLon);
     //call Lyft API using origin and destination data
     //Call Uber API using origin and destination data
   

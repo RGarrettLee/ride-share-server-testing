@@ -16,7 +16,7 @@ from time import sleep
 app = FastAPI()
 
 origins = {
-    'https://rgarrettlee.github.io',
+    'https://rgarrettlee.github.io/',
     'https://rgarrettlee.github.io/webhook-testing/',
     'https://rgarrettlee.github.io/Ride-Compare/'
 }
@@ -48,8 +48,8 @@ def index_post(info: info):
     print('Post incoming')
     jsonData = jsonable_encoder(info)
     print(jsonData)
-    #getUberPrices(jsonData['origin'], jsonData['dest'])
-    getLyftPrices(jsonData['origin'], jsonData['dest'])
+    getUberPrices(jsonData['origin'], jsonData['dest'])
+    #getLyftPrices(jsonData['origin'], jsonData['dest'])
     print(returnData)
     return info
 
