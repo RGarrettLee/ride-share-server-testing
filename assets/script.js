@@ -144,16 +144,26 @@ let savedAddresses = {
           lyft = data[Object.keys(data)[1]];
 
           if (uber !== undefined) {
-              uberPrice = uber[Object.keys(uber)[0]];
+            uberPrice = uber[Object.keys(uber)[0]];
           } else {
-              uberPrice = 0;
+            uberPrice = 0;
           }
 
           if (lyft !== undefined) {
             lyftPrice = lyft[Object.keys(lyft)[0]];
           } else {
-              lyftPrice = 0;
+            lyftPrice = 0;
           }
+
+          let params = new URLSearchParams({
+              uberPrice : '',
+              lyftPrice: ''
+          });
+
+          params[uberPrice] = uberPrice;
+          params[lyftPrice] = lyftPrice;
+
+          window.location(`./results?${params.toString()}`);
 
           console.log(`Uber Price: ${uberPrice} & Lyft Price: ${lyftPrice}`);
       })
