@@ -62,7 +62,9 @@ useAddressButton.addEventListener('click', function (event) {
 
 //on page load, load saved data
 function init() {
-  savedAddresses = JSON.parse(localStorage.getItem("savedAddresses"));
+  if (savedAddresses != null) {
+    savedAddresses = JSON.parse(localStorage.getItem("savedAddresses"));
+  }
 }
 
 //Run init on page load
