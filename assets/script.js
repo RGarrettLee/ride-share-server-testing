@@ -163,7 +163,7 @@ let savedAddresses = {
           params[uberPrice] = uberPrice;
           params[lyftPrice] = lyftPrice;
 
-          window.location(`./results?${params.toString()}`);
+          location.reload(`./results?${params.toString()}`);
 
           console.log(`Uber Price: ${uberPrice} & Lyft Price: ${lyftPrice}`);
       })
