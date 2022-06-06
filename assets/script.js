@@ -76,7 +76,7 @@ let savedAddresses = {
     let destinationLocation
     let originLocation
     const modalBodyInput1 = document.querySelector('#destination');
-    const destination = modalBodyInput1.value;
+    let destination = modalBodyInput1.value;
   
     if (destination === "") {
       errorDisplay2.textContent = "Please enter a valid address.";
@@ -86,7 +86,7 @@ let savedAddresses = {
   
     // tka eorigin from modal input
     const modalBodyInput2 = document.querySelector('#start-point');
-    const startPoint = modalBodyInput2.value;
+    let startPoint = modalBodyInput2.value;
   
     if (startPoint === "") {
       errorDisplay.textContent = "Please enter a valid address.";

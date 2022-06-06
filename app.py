@@ -34,10 +34,6 @@ returnData = {'Uber': {}, 'Lyft': {}}
 class info(BaseModel):
     origin : dict
     dest: dict
-    #city : str
-    #country : str
-    #postal_code : str
-    #street : str
 
 @app.get('/', status_code=200)
 def index():
