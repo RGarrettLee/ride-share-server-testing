@@ -28,6 +28,7 @@ uberURL = 'https://www.uber.com/global/en/price-estimate/'
 lyftURL = 'https://www.lyft.com/rider/fare-estimate'
 
 options = Options()
+options.add_argument('start-maximized')
 
 incomingData = {}
 returnData = {'Uber': {}, 'Lyft': {}}
@@ -121,7 +122,7 @@ def getUberPrices(start, dest):
 
         returnData['Uber'] = resp
     except:
-        returnData['Uber'] = { 'error': 'No drivers available or some other error occured' }
+        returnData['Uber'] = { 'error': 'an error occured' }
 
 def getLyftPrices(start, dest):
     driver = webdriver.Chrome(options=options)
@@ -204,8 +205,8 @@ def getLyftPrices(start, dest):
             resp[keys[i]] = values[i]
 
         if (resp == {}):
-            resp = { 'error': 'No drivers available or some other error occured' }
+            resp = { 'error': 'an error occured' }
 
         returnData['Lyft'] = resp
     except:
-        returnData['Lyft'] = { 'error': 'No drivers available or some other error occured' }
+        returnData['Lyft'] = { 'error': 'an error occured' }
