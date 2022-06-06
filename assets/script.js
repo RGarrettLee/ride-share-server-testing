@@ -139,8 +139,12 @@ let savedAddresses = {
       .then(resp => resp.text())
       .then(function(result) {
           console.log(result);
-          uberPrice = result.data.Uber[Object.keys(result.data.Uber)[0]];
-          lyftPrice = result.data.Lyft[Object.keys(result.data.Lyft)[0]];
+          data = result[Object.keys(result)[0]];
+          uber = data[Object.keys(data)[0]];
+          lyft = data[Object.keys(data)[1]];
+
+          uberPrice = uber[Object.keys(uber)[0]];
+          lyftPrice = lyft[Object.keys(lyft)[0]];
 
           console.log(`Uber Price: ${uberPrice} & Lyft Price: ${lyftPrice}`);
       })
