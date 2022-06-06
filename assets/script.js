@@ -156,14 +156,14 @@ let savedAddresses = {
           }
 
           let params = new URLSearchParams({
-              uberPrice : uberPrice,
-              lyftPrice: lyftPrice
+              "uberPrice" : uberPrice,
+              "lyftPrice": lyftPrice
           });
 
           params[uberPrice] = uberPrice;
           params[lyftPrice] = lyftPrice;
 
-          window.location = (`/result?${params.toString()}`);
+          window.location = (`webhook-testing/result?${params.toString()}`);
 
           console.log(`Uber Price: ${uberPrice} & Lyft Price: ${lyftPrice}`);
       })
