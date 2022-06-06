@@ -105,7 +105,7 @@ def getUberPrices(start, dest):
         prices = products.text.replace('UberX', ' UberX').replace('Assist', ' Assist').replace('Connect', ' Connect').replace('WAV', ' WAV').split()
 
         for i in prices:
-            prices[prices.index(i)] = i.replace('CA', ' CA')
+            prices[prices.index(i)] = i.replace('CA$', ' ')
 
         for i in prices:
             key = ''
@@ -116,7 +116,7 @@ def getUberPrices(start, dest):
                         key += i[k]
                     for k in range(i.index(j), len(i)):
                         value += i[k]
-                    resp[key] = value
+                    resp[key] = value.strip()
                     break
 
         returnData['Uber'] = resp
@@ -192,7 +192,7 @@ def getLyftPrices(start, dest):
                 if (i == ' ' and len(value) > 0):
                     newKey = False
                     if (value != ''):
-                        values.append(value)
+                        values.append(value.replace('$', ''))
                     value = ''
 
         for i in range(len(keys)):
@@ -204,7 +204,5 @@ def getLyftPrices(start, dest):
             resp[keys[i]] = values[i]
 
         returnData['Lyft'] = resp
-
     except:
-        print('ERROR OCCURED')
         returnData['Lyft'] = { 'error': 'No drivers available or some other error occured' }

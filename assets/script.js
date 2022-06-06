@@ -116,8 +116,10 @@ let savedAddresses = {
     error code built into UBER's API, if distance<100 miles, HTTP status 422*/
   })
   
-  function postData() {
-    console.log(post);
+  // connecting to the custom backend to get the data
+  // still fairly buggy, first search is always empty, second is iffy, third works but the lyft site doesnt guarantee a data response due to it being an awfully made site
+  function postData() { 
+    console.log(post); 
     let backend = 'https://d979-142-185-241-49.ngrok.io';
     let settings = {
       "url": backend,
@@ -135,7 +137,13 @@ let savedAddresses = {
           method: "GET"
       })
       .then(resp => resp.text())
-      .then(result => console.log(result))
+      .then(function(result) {
+          console.log(result);
+          uberPrice = result.data.Uber[Object.keys(result.data.Uber)[0]];
+          lyftPrice = result.data.Lyft[Object.keys(result.data.Lyft)[0]];
+
+          console.log(`Uber Price: ${uberPrice} & Lyft Price: ${lyftPrice}`);
+      })
     })
   }
   
