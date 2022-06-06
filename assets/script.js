@@ -156,8 +156,8 @@ let savedAddresses = {
           }
 
           let params = new URLSearchParams({
-              uberPrice : '',
-              lyftPrice: ''
+              uberPrice : uberPrice,
+              lyftPrice: lyftPrice
           });
 
           params[uberPrice] = uberPrice;
