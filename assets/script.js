@@ -163,7 +163,7 @@ let savedAddresses = {
           params[uberPrice] = uberPrice;
           params[lyftPrice] = lyftPrice;
 
-          window.location = (`webhook-testing/result?${params.toString()}`);
+          window.location = (`/result?${params.toString()}`);
 
           console.log(`Uber Price: ${uberPrice} & Lyft Price: ${lyftPrice}`);
       })
