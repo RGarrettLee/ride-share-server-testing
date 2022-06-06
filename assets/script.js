@@ -76,7 +76,7 @@ let savedAddresses = {
     //take destination from modal input
     let destinationLocation
     let originLocation
-    const modalBodyInput1 = document.querySelector('#destination');
+    let modalBodyInput1 = document.querySelector('#destination');
     let destination = modalBodyInput1.value;
   
     if (destination === "") {
@@ -86,7 +86,7 @@ let savedAddresses = {
     }
   
     // tka eorigin from modal input
-    const modalBodyInput2 = document.querySelector('#start-point');
+    let modalBodyInput2 = document.querySelector('#start-point');
     let startPoint = modalBodyInput2.value;
   
     if (startPoint === "") {
