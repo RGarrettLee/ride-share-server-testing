@@ -183,8 +183,10 @@ let savedAddresses = {
             console.log(location);
             if (type === 'origin') {
               post['origin'] = location;
+              console.log(post);
             } else if (type === 'destination') {
               post['dest'] = location;
+              console.log(post);
             }
             if (latlon == [39.78373, -100.445882]) {
   
