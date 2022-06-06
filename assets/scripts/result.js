@@ -11,14 +11,14 @@ console.log(params);
 uberDest.textContent = params.destination;
 lyftDest.textContent = params.destination;
 
-if (params.uberPrice === 'an error occured') {
-    uberPrice.textContent = 'Error Please Try Again'
-} else {
+if (!isNaN(params.uberPrice)) {
     uberPrice.textContent = `$${params.uberPrice}`;
+} else {
+    uberPrice.textContent = params.uberPrices;
 }
 
-if (params.lyftPrices === 'an error occured') {
-    lyftPrice.textContent = 'Error Please Try Again'
+if (!isNaN(params.lyftPrice)) {
+    lyftPrice.textContent = `$${params.lyftPrice}`;
 } else {
-    uberPrice.textContent = `$${params.lyftPrice}`;
+    lyftPrice.textContent = params.lyftPrice;
 }
