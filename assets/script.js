@@ -94,7 +94,6 @@ let savedAddresses = {
   
     } else {
       originLocation = getLocationData(startPoint, 'origin');
-      postData();
     };
   
     //Get price and time estimates from Lyft
@@ -187,6 +186,7 @@ let savedAddresses = {
             } else if (type === 'destination') {
               post['dest'] = location;
               console.log(post);
+              postData();
             }
             if (latlon == [39.78373, -100.445882]) {
   
